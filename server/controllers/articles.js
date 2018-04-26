@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 module.exports = {
   getAll (req, res) {
     Article.find()
+    .populate('author')
     .then(articles => {
       res.status(200).json(articles)
     })
