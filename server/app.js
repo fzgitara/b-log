@@ -18,6 +18,7 @@ mongoose.connect(`mongodb://${process.env.dbuser}:${process.env.dbpass}@ds157639
 
 const index = require('./routes/index');
 const users = require('./routes/users');
+const articles = require('./routes/articles');
 
 const app = express();
 
@@ -35,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/articles', articles);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
