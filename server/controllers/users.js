@@ -36,7 +36,7 @@ module.exports = {
           res.status(409).json('Wrong password')
         }
       } else {
-        res.status(409).json('Email not found')
+        res.status(409).json('Username not found')
       }
     })
   }
