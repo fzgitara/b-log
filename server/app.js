@@ -8,7 +8,7 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 require('dotenv').config()
 
-mongoose.connect(`mongodb://${process.env.dbuser}:${process.env.dbpass}@ds157639.mlab.com:57639/b-log`, (err => {
+mongoose.connect(`mongodb://b-log:b-log123@ds157639.mlab.com:57639/b-log`, (err => {
   if(err){
     console.log('failed connect')
   } else {

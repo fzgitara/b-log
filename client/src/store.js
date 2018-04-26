@@ -7,17 +7,28 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    listArticles: []
+    listArticles: [],
+    listByCategory: []
   },
   mutations: {
     getAllArticles (state, payload) {
       state.listArticles = payload
+    },
+    getByCategory (state, payload) {
+      state.listByCategory = payload
     }
   },
   actions: {
     getAllArticles (context, payload) {
       axios.get('http://localhost:3000/articles').then(response => {
         context.commit('getAllArticles', response.data)
+      })
+    },
+    getByCategory (context, payload) {
+      console.log(payload)
+      axios.get(`http://localhost:3000/articles/category/${payload}`).then(response => {
+        console.log(response.data)
+        context.commit('getByCategory', response.data)
       })
     },
     register (context, payload) {

@@ -59,13 +59,10 @@ module.exports = {
     })
   },
   getByAuthor (req, res) {
-    Article.find({author: req.params.author})
+    Article.find({author: req.params.authorId})
     .exec()
     .then(articles => {
       res.status(200).json(articles)
-    })
-    .catch(err => {
-      res.status(500).json(err)
     })
   },
   getByCategory (req, res) {
@@ -73,9 +70,6 @@ module.exports = {
     .exec()
     .then(articles => {
       res.status(200).json(articles)
-    })
-    .catch(err => {
-      res.status(500).json(err)
     })
   },
   remove (req, res) {

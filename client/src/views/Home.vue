@@ -12,14 +12,14 @@
           <h4 class="card-title text-center">{{article.title}}</h4>
           <img class="content-center" :src="article.img">
           <p class="content card-text">{{article.content}}</p>
-          Category: <a href="">{{article.category}}</a>
+          Category: <router-link @click="getByCategory(article.category)" :to="{path: '/category/'+article.category}">{{article.category}}</router-link>
           <div class="text-right" v-if="id == article.author._id">
             <a href="#" class="btn btn-info" data-toggle="modal" data-target="#modalEdit" @click="modalEdit(article)">Edit</a>
             <a href="#" class="btn btn-danger" @click="remove(article._id)">Delete</a>
           </div>
         </div>
         <div class="card-footer text-muted content">
-          <footer class="blockquote-footer">author <cite title="Source Title">{{article.author.username}}</cite></footer>
+          author: <a href="">{{article.author.username}}</a>
         </div>
       </div>
     </div>
@@ -97,6 +97,9 @@ export default {
         category: this.category
       }
       this.$store.dispatch('update', payload)
+    },
+    getByCategory (payload) {
+      this.$store.dispatch('getByCategory', payload)
     }
   }
 }
