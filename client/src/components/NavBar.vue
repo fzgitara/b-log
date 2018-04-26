@@ -1,20 +1,20 @@
 <template>
 <div>
-  <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
     <a class="navbar-brand" href="#"><img src="../assets/logo.png"> B-log</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <button id="nav-button" type="button" class="btn btn-light d-block d-md-none" data-toggle="modal" data-target="#modalAdd" v-if="token">Add Article</button>
-      <button id="nav-button" type="button" class="btn btn-light d-block d-md-none" @click="logout" v-if="token">Logout</button>
-      <button id="nav-button" type="button" class="btn btn-light d-block d-md-none" data-toggle="modal" data-target="#modalRegister" v-if="!token">Register</button>
-      <button id="nav-button" type="button" class="btn btn-light d-block d-md-none" data-toggle="modal" data-target="#modalLogin" v-if="!token">Login</button>
+      <button id="nav-button" type="button" class="btn btn-dark d-block d-md-none" data-toggle="modal" data-target="#modalAdd" v-if="token">Add Article</button>
+      <button id="nav-button" type="button" class="btn btn-dark d-block d-md-none" @click="logout" v-if="token">Logout</button>
+      <button id="nav-button" type="button" class="btn btn-dark d-block d-md-none" data-toggle="modal" data-target="#modalRegister" v-if="!token">Register</button>
+      <button id="nav-button" type="button" class="btn btn-dark d-block d-md-none" data-toggle="modal" data-target="#modalLogin" v-if="!token">Login</button>
     </div>
-      <button id="nav-button" type="button" class="btn btn-light d-none d-md-block" data-toggle="modal" data-target="#modalAdd" v-if="token">Add Article</button>
-      <button id="nav-button" type="button" class="btn btn-light d-none d-md-block" @click="logout" v-if="token">Logout</button>
-      <button id="nav-button" type="button" class="btn btn-light d-none d-md-block" data-toggle="modal" data-target="#modalRegister" v-if="!token">Register</button>
-      <button id="nav-button" type="button" class="btn btn-light d-none d-md-block" data-toggle="modal" data-target="#modalLogin" v-if="!token">Login</button>
+      <button id="nav-button" type="button" class="btn btn-dark d-none d-md-block" data-toggle="modal" data-target="#modalAdd" v-if="token">Add Article</button>
+      <button id="nav-button" type="button" class="btn btn-dark d-none d-md-block" @click="logout" v-if="token">Logout</button>
+      <button id="nav-button" type="button" class="btn btn-dark d-none d-md-block" data-toggle="modal" data-target="#modalRegister" v-if="!token">Register</button>
+      <button id="nav-button" type="button" class="btn btn-dark d-none d-md-block" data-toggle="modal" data-target="#modalLogin" v-if="!token">Login</button>
   </nav>
   <!-- MODAL LOGIN-->
   <div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="modalLogin" aria-hidden="true">
@@ -29,9 +29,8 @@
         <div class="modal-body">
             <form>
               <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" v-model="email" aria-describedby="emailHelp" placeholder="Enter email">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                <label for="exampleInputName1">Username</label>
+                <input type="text" class="form-control" v-model="username" placeholder="Enter username">
               </div>
               <div class="form-group">
                 <label for="exampleInputPassword1">Password</label>
@@ -59,13 +58,8 @@
         <div class="modal-body">
             <form>
               <div class="form-group">
-                <label for="exampleInputName1">Name</label>
-                <input type="text" class="form-control" v-model="name" placeholder="Enter name">
-              </div>
-              <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" v-model="email" aria-describedby="emailHelp" placeholder="Enter email">
-                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                <label for="exampleInputName1">Username</label>
+                <input type="text" class="form-control" v-model="username" placeholder="Enter username">
               </div>
               <div class="form-group">
                 <label for="exampleInputPassword1">Password</label>
@@ -98,12 +92,16 @@
               </div>
               <div class="form-group">
                 <label>Content</label>
-                <textarea rows="5" class="form-control" v-model="text" placeholder="Content"></textarea>
+                <textarea rows="5" class="form-control" v-model="content" placeholder="Content"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Category</label>
+                <input type="text" class="form-control" v-model="category" placeholder="Category">
               </div>
             </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-ligth" @click="add">Submit</button>
+          <button type="button" class="btn btn-primary" @click="create">Submit</button>
         </div>
       </div>
     </div>
@@ -112,13 +110,56 @@
 </template>
 
 <script>
-export default {
+import Vue from 'vue'
+import VeeValidate from 'vee-validate'
 
+Vue.use(VeeValidate)
+export default {
+  data () {
+    return {
+      token: localStorage.getItem('token'),
+      username: '',
+      password: '',
+      title: '',
+      content: '',
+      category: ''
+    }
+  },
+  methods: {
+    register () {
+      let payload = {
+        username: this.username,
+        password: this.password
+      }
+      this.$store.dispatch('register', payload)
+    },
+    login () {
+      let payload = {
+        username: this.username,
+        password: this.password
+      }
+      this.$store.dispatch('login', payload)
+    },
+    logout () {
+      this.$store.dispatch('logout')
+    },
+    create () {
+      let payload = {
+        title: this.title,
+        content: this.content,
+        category: this.category
+      }
+      this.$store.dispatch('create', payload)
+    }
+  }
 }
 </script>
 
 <style>
 img {
   max-width: 2rem;
+}
+.card {
+  margin: 2rem 0rem;
 }
 </style>
