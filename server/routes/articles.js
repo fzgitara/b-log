@@ -1,7 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const {getOne, create, update, getByAuthor, getByCategory, remove} = require('../controllers/articles')
+const {getAll, getOne, create, update, getByAuthor, getByCategory, remove} = require('../controllers/articles')
 
+router.get('/', getAll)
 router.get('/:_id', getOne)
 router.post('/', create)
 router.put('/:_id', update)

@@ -2,6 +2,12 @@ const Article = require('../models/articles')
 const jwt = require('jsonwebtoken')
 
 module.exports = {
+  getAll (req, res) {
+    Article.find()
+    .then(articles => {
+      res.status(200).json(articles)
+    })
+  },
   getOne (req, res) {
     Article.findOne({_id: req.params._id})
     .populate('author')
