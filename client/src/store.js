@@ -71,7 +71,10 @@ export default new Vuex.Store({
     },
     create (context, payload) {
       axios.post('http://localhost:3000/articles/', payload, {
-        headers: {token: localStorage.getItem('token')}
+        headers: {
+          'Content-type': 'multipart/form-data',
+          token: localStorage.getItem('token')
+        }
       }).then(response => {
         swal(
           'Success!',

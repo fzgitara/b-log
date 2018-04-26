@@ -1,5 +1,6 @@
 const Article = require('../models/articles')
 const jwt = require('jsonwebtoken')
+const {getPublicUrl} = require('../middlewares/uploadGCS')
 
 module.exports = {
   getAll (req, res) {
@@ -25,7 +26,8 @@ module.exports = {
     article.title = req.body.title
     article.content = req.body.content
     article.category = req.body.category
-    article.author = decoded._id
+    article.author = decoded._id,
+    article.img = req.file.cloudStoragePublicUrl
     article.save()
     .then(data => {
       res.status(201).json({

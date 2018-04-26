@@ -91,6 +91,10 @@
                 <input type="text" class="form-control" v-model="title" placeholder="Title">
               </div>
               <div class="form-group">
+                <label for="image">Image:</label>
+                <input type="file" class="form-control-file" name="img" accept="image/*" @change="upload">
+              </div>
+              <div class="form-group">
                 <label>Content</label>
                 <textarea rows="5" class="form-control" v-model="content" placeholder="Content"></textarea>
               </div>
@@ -144,22 +148,22 @@ export default {
       this.$store.dispatch('logout')
     },
     create () {
-      let payload = {
-        title: this.title,
-        content: this.content,
-        category: this.category
-      }
-      this.$store.dispatch('create', payload)
+      const formData = new FormData()
+      formData.append('title', this.title)
+      formData.append('content', this.content)
+      formData.append('category', this.category)
+      formData.append('img', this.img)
+      this.$store.dispatch('create', formData)
+    },
+    upload (event) {
+      this.img = event.target.files[0]
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 img {
   max-width: 2rem;
-}
-.card {
-  margin: 2rem 0rem;
 }
 </style>

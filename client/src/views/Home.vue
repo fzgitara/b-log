@@ -10,10 +10,11 @@
       <div class="card text-justify">
         <div class="card-body">
           <h4 class="card-title text-center">{{article.title}}</h4>
+          <img class="content-center" :src="article.img">
           <p class="content card-text">{{article.content}}</p>
-          <a href="">{{article.category}}</a>
+          Category: <a href="">{{article.category}}</a>
           <div class="text-right" v-if="id == article.author._id">
-            <a href="#" class="btn btn-info" data-toggle="modal" data-target="#modalEdit" @click="modalEdit(article._id)">Edit</a>
+            <a href="#" class="btn btn-info" data-toggle="modal" data-target="#modalEdit" @click="modalEdit(article)">Edit</a>
             <a href="#" class="btn btn-danger" @click="remove(article._id)">Delete</a>
           </div>
         </div>
@@ -83,7 +84,10 @@ export default {
       this.$store.dispatch('remove', payload)
     },
     modalEdit (payload) {
-      this.articleId = payload
+      this.articleId = payload._id
+      this.title = payload.title
+      this.content = payload.content
+      this.category = payload.category
     },
     update () {
       let payload = {
@@ -101,6 +105,9 @@ export default {
 <style scoped>
 .jumbotron {
   margin-top: 3rem;
+}
+.card {
+  margin: 2rem 0rem;
 }
 .btn {
   margin: 0px 5px;
